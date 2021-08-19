@@ -1,4 +1,5 @@
 const path = require('path')
+const cors = require('cors')
 const axios = require('axios')
 const config = require('dotenv').config()
 const { server, app } = require('./server')
@@ -10,9 +11,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../', 'client', 'index.html'))
 })
 
-app.get('/tweets', async (req, res) => {
-  console.log(req.query.ht)
+app.get('/tweets', cors(), async (req, res) => {
   res.json(await getTweets(`${req.query.ht}`))
+})
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.get('/tweets2', cors(corsOptions), async (req, res) => {
+  res.send('42')
 })
 
 
