@@ -22,6 +22,12 @@ app.get('/tweets', async (req, res) => {
   res.json(await getTweets(`${req.query.ht}`))
 })
 
+const sortTweets = (t) => {
+  return t.sort(function(a,b){
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
+}
+
 async function getTweets(ht) {
   const TwitterURL =
     `https://api.twitter.com/2/tweets/search/recent?query=${ht}`
@@ -39,7 +45,8 @@ async function getTweets(ht) {
 
     const tweets = await response;
     if (tweets.data) {
-      res = tweets.data
+      let sortedTweets = sortTweets(tweets.data.data)
+      res = { ...tweets.data, data: sortedTweets }
     }
   }
   catch(e) {
