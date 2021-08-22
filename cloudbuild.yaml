@@ -4,3 +4,6 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/monitoreo-elecciones-2021/monitoreo-elecciones:$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['beta', 'run', 'deploy', 'monitoreo-elecciones-api', '--region=southamerica-east1', '--platform=managed', '--image=gcr.io/monitoreo-elecciones-2021/monitoreo-elecciones:$SHORT_SHA']
