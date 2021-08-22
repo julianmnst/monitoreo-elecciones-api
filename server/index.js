@@ -16,7 +16,7 @@ app.get('/tweets', async (req, res) => {
 
   try {
     const queryHashtag = req.query.ht
-    tweets = await getTweets()
+    tweets = await getTweets(queryHashtag)
   }
   catch(e) {
     console.error(e)
